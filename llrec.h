@@ -67,20 +67,27 @@ void llpivot(Node *&head, Node *&smaller, Node *&larger, int pivot);
  *   may change [i.e. be filtered])
  *
  */
+
+
+// rmrk* Being a template typename, generalizable function means it needs to be in .h file.
 template <typename Comp> Node* llfilter(Node* head, Comp pred);
 
-//*****************************************************************************
-// Since template implementations should be in a header file, we will
-// implement the above function now.
-//*****************************************************************************
+template <typename Comp> Node* llfilter(Node* head, Comp pred) {
+  // rmrk* the template typename syntax is specifially addressing the pred argument.
+  // ex. head=[3,6,4,9], pred=ODD() => returns true if odd #
+  if (!(head)) {
+    return nullptr;
+  } else {
+    Node* filteredNodes = llfilter(head->next, pred);
 
-template <typename Comp>
-Node* llfilter(Node* head, Comp pred) {
-    //*********************************************
-    // Provide your implementation below
-    //*********************************************
-
-
+    if (pred((*head).val)) {
+      delete head;
+      return filteredNodes;
+    } else {
+      head->next = filteredNodes;
+      return head;
+    }
+  }
 }
 
 #endif

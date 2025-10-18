@@ -2,6 +2,7 @@
 #include <fstream>
 #include <functional>
 #include "llrec.h"
+#include <vector>
 using namespace std;
 
 /**
@@ -47,7 +48,7 @@ void print(Node* head) {
         cout << head->val << " ";
         head = head->next;
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
 void dealloc(Node* head) {
@@ -63,26 +64,80 @@ void dealloc(Node* head) {
 //   Add any helper functions or
 //   function object struct declarations
 // -----------------------------------------------
+Node* makeList(std::vector<int> const & content) {
+	Node* head = nullptr;
+	Node* tail = nullptr;
 
+	for(auto v : content) {
+		if(head == nullptr) {
+			head = new Node(v,nullptr);
+			tail = head;
+		}
+		else {
+			tail->next = new Node(v,nullptr);
+			tail = tail->next;
+		}
+	}
+	return head;
+}
 
-
-
+struct IsOdd {
+  bool operator()(int num) {
+    return (num % 2) != 0;
+  }
+};
 
 int main(int argc, char* argv[]) {
-    if(argc < 2) {
-        cout << "Please provide an input file" << endl;
-        return 1;
-    }
+  // if(argc < 2) {
+  //     std::cout << "Please provide an input file" << std::endl;
+  //     return 1;
+  // }
 
-    // -----------------------------------------------
-    // Feel free to update any code below this point
-    // -----------------------------------------------
-    Node* head = readList(argv[1]);
-    cout << "Original list: ";
-    print(head);
+  // -----------------------------------------------
+  // Feel free to update any code below this point
+  // -----------------------------------------------
+  // Node* head = readList(argv[1]);
+  // std::cout << "Original list: ";
+  // print(head);
 
-    // Test out your linked list code
-    
-    return 0;
 
+  // ############# Test out llpivot #############
+  // Node* head = makeList({2,4,8,3});
+  // std::cout << "Original list: ";
+  // print(head);
+  // Node* smaller = NULL;
+  // Node* larger = NULL;
+  // llpivot(head, smaller, larger, 5);
+  // std::cout << "After llpivot" << std::endl;
+  // print(head);
+  // std::cout << "smaller" << std::endl;
+  // print(smaller);
+  // std::cout << "larger" << std::endl;
+  // print(larger);
+
+  /*
+  llpivot OUTPUT (10/12):
+  Original list: 2 4 8 3 
+  After llpivot
+
+  smaller
+  2 4 3 
+  larger
+  8 
+  */
+
+  // ############# Test out llfilter #############
+  Node* head = makeList({3, 6, 4, 9});
+  std::cout << "Original list: ";
+  print(head);
+
+  Node* filtered = llfilter(head, IsOdd());
+  std::cout << "after filtering" << std::endl;
+  print(filtered);
+
+
+
+
+  
+  return 0;
 }

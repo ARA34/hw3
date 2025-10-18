@@ -4,24 +4,30 @@
 // Provide your implementation of llpivot below
 //*********************************************
 void llpivot (Node*& head, Node*& smaller, Node*& larger, int pivot) {
-  if (head == NULL) {
+  if (!(head)) {
+    smaller = nullptr;
+    larger = nullptr;
     return; //basecase
   } else {
-    return llpivot(head->next);
-
-    // this will execute in backwards order: [3, 8, 4, 2]
     Node* popped = head;
     head = head->next;
-    if (*popped > pivot) {
+
+    llpivot(head, smaller, larger, pivot);
+
+    popped->next = nullptr;
+
+    // this will execute in backwards order: [3, 8, 4, 2]
+    if ((*popped).val > pivot) {
       // push to larger linked list
-      if (!larger) {
+      if (!(larger)) {
         larger = popped;
       } else {
         Node* temp = larger;
         larger = popped;
         larger->next = temp;
+        temp = nullptr;
       }
-    } else if (*popped <= pivot) {
+    } else if ((*popped).val <= pivot) {
       // push to smaller
       if (!smaller) {
         smaller = popped;
@@ -29,6 +35,7 @@ void llpivot (Node*& head, Node*& smaller, Node*& larger, int pivot) {
         Node* temp = smaller;
         smaller = popped;
         smaller->next = temp;
+        temp = nullptr;
       }
     }
   }
